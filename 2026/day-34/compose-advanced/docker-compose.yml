@@ -1,0 +1,78 @@
+services:
+
+  web:
+    build: ./app
+    container_name: day34-web
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      DB_HOST: mysql
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
+      REDIS_HOST: redis
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+    networks:
+      - app-network
+
+    labels:
+      project: "day34"
+      service: "web"
+
+  mysql:
+    image: mysql:8.0
+    container_name: day34-mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    restart: always
+
+    networks:
+      - app-network
+
+    labels:
+      project: "day34"
+      service: "database"
+
+  redis:
+    image: redis:alpine
+    container_name: day34-redis
+
+    restart: always
+
+    networks:
+      - app-network
+
+    labels:
+      project: "day34"
+      service: "cache"
+
+
+networks:
+  app-network:
+    driver: bridge
+
+
+volumes:
+  mysql_data:
