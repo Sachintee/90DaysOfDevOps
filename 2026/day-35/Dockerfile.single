@@ -1,0 +1,12 @@
+FROM golang:1.23
+
+WORKDIR /app
+
+COPY app/go.mod .
+COPY app/main.go .
+
+RUN go build -o app main.go
+
+EXPOSE 8080
+
+CMD ["./app"]
