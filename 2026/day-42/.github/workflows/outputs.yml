@@ -1,0 +1,24 @@
+name: Job Outputs
+
+on:
+  push:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    outputs:
+      date: ${{ steps.date.outputs.date }}
+
+    steps:
+      - name: Generate date
+        id: date
+        run: echo "date=$(date)" >> "$GITHUB_OUTPUT"
+
+  display:
+    needs: generate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Display generated date
+        run: echo "Generated date: ${{ needs.generate.outputs.date }}"
