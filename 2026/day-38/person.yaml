@@ -1,0 +1,13 @@
+name: Sachin
+role: DevOps Engineer
+experience_years: 0
+learning: true
+
+tools:
+  - Linux
+  - Git
+  - Docker
+  - Jenkins
+  - Kubernetes
+
+hobbies: [coding, learning, cricket, music]
