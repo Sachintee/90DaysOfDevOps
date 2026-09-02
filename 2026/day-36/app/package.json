@@ -1,0 +1,13 @@
+{
+  "name": "day36-docker-project",
+  "version": "1.0.0",
+  "description": "Dockerized Node.js Express application with MySQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0"
+  }
+}
